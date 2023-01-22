@@ -3,37 +3,22 @@ package connect
 import (
 	"ayush-gupta-01/golang-api-tut/config"
 	"ayush-gupta-01/golang-api-tut/models"
-	"database/sql"
 	"log"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-var db *sql.DB
-var gormDB *gorm.DB
-
-func SQLDB() *sql.DB {
-	return db
-}
-
-func GormDB() *gorm.DB {
-	return gormDB
-}
+var GormDB *gorm.DB
 
 func InitDBConnection() {
-	sqldb, err := sql.Open(config.DB_DRIVER, config.ConnectionString())
 
-	if err != nil {
-		log.Fatalf("Unable to connect to database , exiting : %v", err)
-	}
-	db = sqldb
-
-	gormDatabase, err := gorm.Open(postgres.New(postgres.Config{Conn: db}), &gorm.Config{})
+	GormDB, err := gorm.Open("postgres", config.ConnectionString())
 	if err != nil {
 		log.Fatalf("Unable to connect to Gorm, exiting : %v", err)
 	}
-	gormDB = gormDatabase
 
-	gormDB.AutoMigrate(&models.GetAllBooks{})
+	GormDB.AutoMigrate(&models.Books{})
+
+	GormDB.Close()
 }
