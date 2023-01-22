@@ -5,6 +5,8 @@ import (
 	"ayush-gupta-01/golang-api-tut/models"
 	"ayush-gupta-01/golang-api-tut/utils"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -20,7 +22,12 @@ func SayHello(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateBook(w http.ResponseWriter, r *http.Request) {
-
+	var GormDB = connect.GormDB()
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal("Error Ayya %v", err)
+	}
+	fmt.Println(body)
 }
 
 func GetAllBooks(w http.ResponseWriter, r *http.Request) {

@@ -9,5 +9,6 @@ import (
 func NewRouter(router *mux.Router) {
 	router.HandleFunc("/", controllers.SayHello).Methods("Get")
 	router.HandleFunc("/books", controllers.GetAllBooks).Methods("Get")
+	router.HandleFunc("/book", controllers.CreateBook).Methods("Post")
 	router.HandleFunc("/book/{id}", controllers.GetBookById).Methods("Get")
 }
