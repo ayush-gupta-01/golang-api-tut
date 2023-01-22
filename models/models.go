@@ -3,7 +3,7 @@ package models
 type Books struct {
 	Id           int64  `gorm:"column:id" json:"id"`
 	BookName     string `gorm:"column:name" json:"bookname"`
-	Publications string `gorm:"column:publications" json:"publication"`
+	Publications string `gorm:"column:publications" json:"publications"`
 }
 
 type BookResp struct {
