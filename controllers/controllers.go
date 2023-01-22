@@ -60,3 +60,19 @@ func GetBookById(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(result)
 	utils.WriteJsonData(w, res, 200)
 }
+
+func DeleteBook(w http.ResponseWriter, r *http.Request) {
+	var GormDB = connect.GormDB()
+	params := mux.Vars(r)
+	id := params["id"]
+	book := models.Books{}
+	result := GormDB.Where("Id=?", id).Delete(&book)
+	fmt.Println(result)
+	response := models.Response{
+		ResponseMsg:  "success",
+		ResponseCode: 200,
+		Data:         "Book deleted successfully",
+		Error:        nil,
+	}
+	utils.WriteJsonData(w, response, 200)
+}

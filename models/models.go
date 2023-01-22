@@ -6,11 +6,9 @@ type Books struct {
 	Publications string `gorm:"column:publications" json:"publications"`
 }
 
-type BookResp struct {
-	Id          int64  `json:"id"`
-	BookName    string `json:"bookname"`
-	Publication string `json:"publication"`
-	CreatedAt   string `json:"createdat"`
-	UpdatedAt   string `json:"updatedat"`
-	DeletedAt   string `json:"deletedat"`
+type Response struct {
+	ResponseMsg  string      `json:"responseMsg"`
+	ResponseCode int         `json:"responseCode"`
+	Data         interface{} `json:"data"`
+	Error        interface{} `json:"error"`
 }
