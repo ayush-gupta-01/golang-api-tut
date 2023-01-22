@@ -1,7 +1,10 @@
 package models
 
+import "github.com/jinzhu/gorm"
+
 type Books struct {
-	Id           uint64 `gorm:"column:id;primary_key" json:"id"`
+	gorm.Model
+
 	BookName     string `gorm:"column:name" json:"bookname"`
 	Publications string `gorm:"column:publications" json:"publication"`
 }
