@@ -9,8 +9,6 @@ import (
 	"net/http"
 )
 
-var gormDB = connect.GormDB
-
 type response struct {
 	Msg string `json:"msg"`
 }
@@ -21,11 +19,12 @@ func SayHello(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllBooks(w http.ResponseWriter, r *http.Request) {
-	if gormDB == nil {
+	var GormDB = connect.GormDB()
+	if GormDB == nil {
 		log.Fatal("Khali h ")
 	}
 	var res []models.Books
-	result := gormDB.Find(&res)
+	result := GormDB.Find(&res)
 	fmt.Println(result, res)
 	utils.WriteJsonData(w, res, 200)
 }
