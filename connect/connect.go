@@ -3,7 +3,6 @@ package connect
 import (
 	"ayush-gupta-01/golang-api-tut/config"
 	"database/sql"
-	"fmt"
 
 	"log"
 	"time"
@@ -36,7 +35,6 @@ func InitDBConnection() {
 
 	//Reuse the above connection pool in gorm
 	gormDatabase, err := gorm.Open(postgres.New(postgres.Config{Conn: db}), &gorm.Config{})
-	fmt.Println(gormDatabase)
 	if err != nil {
 		log.Fatalf("Unable to connect to Gorm, exiting: %v", err)
 	}

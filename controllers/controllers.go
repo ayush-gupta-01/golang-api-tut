@@ -5,8 +5,9 @@ import (
 	"ayush-gupta-01/golang-api-tut/models"
 	"ayush-gupta-01/golang-api-tut/utils"
 	"fmt"
-	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type response struct {
@@ -18,17 +19,24 @@ func SayHello(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJsonData(w, res, 200)
 }
 
+func CreateBook(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func GetAllBooks(w http.ResponseWriter, r *http.Request) {
 	var GormDB = connect.GormDB()
-	if GormDB == nil {
-		log.Fatal("Khali h ")
-	}
 	var res []models.Books
 	result := GormDB.Find(&res)
-	fmt.Println(result, res)
+	fmt.Println(result)
 	utils.WriteJsonData(w, res, 200)
 }
 
-func GetBookById() {
-
+func GetBookById(w http.ResponseWriter, r *http.Request) {
+	var GormDB = connect.GormDB()
+	params := mux.Vars(r)
+	id := params["id"]
+	var res models.Books
+	result := GormDB.Where("Id=?", id).Find(&res)
+	fmt.Println(result)
+	utils.WriteJsonData(w, res, 200)
 }
