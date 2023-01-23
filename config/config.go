@@ -7,7 +7,7 @@ var (
 	DB_PORT     = "5432"
 	DB_PROTOCOL = "tcp"
 	DB_USER     = "postgres"
-	DB_PASSWORD = "your_password"
+	DB_PASSWORD = "ayush"
 	DB_NAME     = "gobookstore"
 	DB_DRIVER   = "pgx"
 	DB_SSLMODE  = "disable"

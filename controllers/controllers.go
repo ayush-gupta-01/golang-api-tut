@@ -3,6 +3,7 @@ package controllers
 import (
 	"ayush-gupta-01/golang-api-tut/connect"
 	"ayush-gupta-01/golang-api-tut/models"
+	"ayush-gupta-01/golang-api-tut/services"
 	"ayush-gupta-01/golang-api-tut/utils"
 	"encoding/json"
 	"fmt"
@@ -45,9 +46,7 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 
 func GetAllBooks(w http.ResponseWriter, r *http.Request) {
 	var GormDB = connect.GormDB()
-	var res []models.Books
-	result := GormDB.Find(&res)
-	fmt.Println(result)
+	res := services.GetAllBooks(GormDB)
 	utils.WriteJsonData(w, res, 200)
 }
 
