@@ -60,6 +60,41 @@ func GetBookById(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJsonData(w, res, 200)
 }
 
+func UpdateBook(w http.ResponseWriter, r *http.Request) {
+	var GormDB = connect.GormDB()
+	params := mux.Vars(r)
+	id := params["id"]
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		utils.WriteJsonData(w, err, 400)
+	}
+	details := models.Books{}
+	if err := json.Unmarshal(body, &details); err != nil {
+		utils.WriteJsonData(w, err, 400)
+	}
+	book := models.Books{}
+	result := GormDB.Where("Id=?", id).Find(&book)
+	if result.RowsAffected == 0 {
+		response := models.Response{
+			ResponseMsg:  "failed",
+			ResponseCode: 400,
+			Data:         "Book not found",
+			Error:        nil,
+		}
+		utils.WriteJsonData(w, response, 400)
+	}
+	book.BookName = details.BookName
+	book.Publications = details.Publications
+	result = GormDB.Save(&book)
+	response := models.Response{
+		ResponseMsg:  "success",
+		ResponseCode: 200,
+		Data:         "Book updated successfully",
+		Error:        nil,
+	}
+	utils.WriteJsonData(w, response, 200)
+}
+
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	var GormDB = connect.GormDB()
 	params := mux.Vars(r)
