@@ -3,6 +3,7 @@ package controllers
 import (
 	"ayush-gupta-01/golang-api-tut/connect"
 	"ayush-gupta-01/golang-api-tut/models"
+	"ayush-gupta-01/golang-api-tut/services"
 	"ayush-gupta-01/golang-api-tut/utils"
 	"encoding/json"
 	"fmt"
@@ -11,6 +12,8 @@ import (
 
 	"github.com/gorilla/mux"
 )
+
+var NewServiceRepository = services.NewBookService()
 
 type response struct {
 	Msg string `json:"msg"`
@@ -22,7 +25,6 @@ func SayHello(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateBook(w http.ResponseWriter, r *http.Request) {
-	var GormDB = connect.GormDB()
 	body, err := io.ReadAll(r.Body)
 	// body : [123 34 105 100 34 58 49 52 44 34 98 111 111 107 110 97 109 101 34 58
 	// 34 97 115 100 97 115 100 97 115 100 34 44 34 112 117 98 108 105 99 97
@@ -36,11 +38,8 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 		utils.WriteJsonData(w, err, 400)
 	}
 	// details by unmarshal : {12 asdasdasd sadkljaslkdjaslkjdalksjdlkasjdas}
-	if err := GormDB.Create(&details).Error; err != nil {
-		utils.WriteJsonData(w, err, 400)
-	} else {
-		utils.WriteJsonData(w, details, 200)
-	}
+	data, _, status := NewServiceRepository.CreateBook(w, details)
+	utils.WriteJsonData(w, data, status)
 }
 
 func GetAllBooks(w http.ResponseWriter, r *http.Request) {
